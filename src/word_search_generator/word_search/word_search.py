@@ -1,6 +1,10 @@
 import json
+import math
+import random
 from collections.abc import Iterable
 from pathlib import Path
+
+from typing import List, Set
 
 from .. import utils
 from ..core.formatter import Formatter
@@ -38,10 +42,8 @@ class WordSearch(Game):
     DEFAULT_GENERATOR = WordSearchGenerator()
     DEFAULT_FORMATTER = WordSearchFormatter()
     DEFAULT_VALIDATORS = [
-        NoPalindromes(),
         NoPunctuation(),
         NoSingleLetterWords(),
-        NoSubwords(),
     ]
 
     def __init__(
@@ -53,6 +55,7 @@ class WordSearch(Game):
         secret_level: int | str | None = None,
         *,
         require_all_words: bool = False,
+        allow_reverse: bool = False,
         generator: Generator | None = None,
         formatter: Formatter | None = None,
         validators: Iterable[Validator] | None = DEFAULT_VALIDATORS,
@@ -295,6 +298,11 @@ class WordSearch(Game):
         self._puzzle = self.generator.generate(self)
         if self.require_all_words and self.unplaced_hidden_words:
             raise MissingWordError("All words could not be placed in the puzzle.")
+
+    def _reverse_words(self, words_list: List[str]) -> List[str]:
+      """Reverse words in list."""
+      num_to_reverse: Set[int] = set([random.randint(0, len(words_list)-1) for i in range(0, math.floor(len(words_list) / 3))])
+      return ",".join([c[::-1] if i in num_to_reverse else c for i, c in enumerate(words_list)])
 
     # ******************************************************** #
     # ******************** DUNDER METHODS ******************** #

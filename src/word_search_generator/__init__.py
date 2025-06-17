@@ -10,11 +10,12 @@ Generate Word Search puzzles with Python.
 __all__ = [
     "__version__",
     "WordSearch",
+    "WordSearchGenerator",
 ]
 
 from rich.traceback import install
 
-from .word_search.word_search import WordSearch  # noqa: F401
+from .word_search.word_search import WordSearch, WordSearchGenerator  # noqa: F401c
 
 install(show_locals=True)
 

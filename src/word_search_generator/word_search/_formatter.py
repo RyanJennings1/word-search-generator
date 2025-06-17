@@ -222,9 +222,8 @@ class WordSearchFormatter(Formatter):
                 },
             }
         )
-        with open(path, "x") as f:
-            f.write(data)
-        return path.absolute()
+        # Return data for integration instead of writing out
+        return data
 
     def write_pdf_file(
         self,
